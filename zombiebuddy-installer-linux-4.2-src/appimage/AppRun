@@ -1,0 +1,54 @@
+#!/bin/sh
+# ZombieBuddy Linux Installer - AppRun
+#
+# The installer is an interactive console application (like the original
+# Windows ZombieBuddyInstaller.exe). When we already have a terminal, run it
+# directly; when launched without one (file manager double-click), try to open
+# a terminal emulator around it.
+set -u
+
+HERE="$(dirname "$(readlink -f "$0")")"
+EXEC="$HERE/usr/bin/zombiebuddy-linux-installer"
+
+if [ -t 0 ] && [ -t 1 ]; then
+    exec "$EXEC" "$@"
+fi
+
+# --- no controlling terminal: try to open one ---
+SELF="$0"
+[ -n "${APPIMAGE:-}" ] && SELF="$APPIMAGE"
+
+launch_in_terminal() {
+    for t in gnome-terminal konsole xfce4-terminal x-terminal-emulator \
+             kitty alacritty wezterm foot xterm uxterm lxterminal terminator \
+             mate-terminal qterminal pterm st deepin-terminal; do
+        command -v "$t" >/dev/null 2>&1 || continue
+        case "$t" in
+            gnome-terminal)
+                "$t" --wait -- "$EXEC" "$@" 2>/dev/null || "$t" -- "$EXEC" "$@"
+                return 0 ;;
+            konsole)
+                "$t" -e "$EXEC" "$@" 2>/dev/null || "$t" -e "$EXEC"
+                return 0 ;;
+            xfce4-terminal)
+                "$t" -x "$EXEC" "$@" 2>/dev/null || "$t" -x "$EXEC"
+                return 0 ;;
+            kitty|alacritty|wezterm|foot|st)
+                "$t" "$EXEC" "$@"
+                return 0 ;;
+            *)
+                "$t" -e "$EXEC" "$@" 2>/dev/null || "$t" -e "$EXEC"
+                return 0 ;;
+        esac
+    done
+    return 1
+}
+
+if launch_in_terminal "$@"; then
+    exit 0
+fi
+
+# Last resort: run without a terminal so at least the exit code is right.
+echo "No terminal emulator found - please run the installer from a terminal:" >&2
+echo "  $SELF" >&2
+exec "$EXEC" "$@"

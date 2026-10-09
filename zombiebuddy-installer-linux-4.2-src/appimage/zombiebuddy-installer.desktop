@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=ZombieBuddy Installer
+GenericName=ZombieBuddy Linux Installer
+Comment=Install or uninstall the ZombieBuddy modloader for Project Zomboid (Steam, native/Flatpak/Snap)
+Exec=zombiebuddy-linux-installer
+Icon=zombiebuddy-installer
+Terminal=true
+Categories=Game;Utility;
+Keywords=zomboid;projectzomboid;modloader;zombiebuddy;steam;
+X-AppImage-Name=ZombieBuddyInstaller
+X-AppImage-Version=4.2-linux
+StartupNotify=false
