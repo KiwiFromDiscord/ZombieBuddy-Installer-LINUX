@@ -1,5 +1,6 @@
 # ZombieBuddy-Installer-LINUX
 A modified and unnoficial version of the Windows ZombieBuddy Installer that ahould work on linux.
+BUILDS AS AN APPIMAGE.
 
 
 # ZombieBuddy Linux Installer (v4.2) - Ported by Kiwi
@@ -128,18 +129,7 @@ directory (downloaded appimagetool and intermediate files land in `build/`).
 The binary is compiled statically (`CGO_ENABLED=0`) — no root rights or
 system libraries are required.
 
-## Running the tests
 
-Build first (`./build.sh` or `cd installer && go build .`), then:
-
-```bash
-tests/test-installer.sh     # 30 checks - main install/uninstall flows
-tests/test-edge.sh          # 19 checks - Flatpak/B41/override edge cases
-tests/test-steamclose.sh    # 29 checks - automatic Steam shutdown
-```
-
-All tests run against a fake `$HOME` with a simulated Steam + Project Zomboid
-install, so they never touch your real system.
 
 ## Provenance
 
