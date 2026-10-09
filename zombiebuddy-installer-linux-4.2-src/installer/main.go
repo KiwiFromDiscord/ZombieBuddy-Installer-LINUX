@@ -35,8 +35,7 @@ var (
 )
 
 // stdinReader is shared by all prompts so that piped/scripted input works
-// the same way as an interactive terminal (a fresh bufio.Reader per prompt
-// would buffer ahead and discard the remaining input lines).
+// the same way as an interactive terminal // would buffer ahead and discard the remaining input lines).
 var stdinReader = bufio.NewReader(os.Stdin)
 
 type patchTargets struct {
